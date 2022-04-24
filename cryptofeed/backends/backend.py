@@ -110,16 +110,18 @@ class BackendBookCallback:
         if self.snapshots_only:
             await self._write_snapshot(book, receipt_timestamp)
         else:
-            data = book.to_dict(delta=book.delta is not None, numeric_type=self.numeric_type, none_to=self.none_to)
+#             data = book.to_dict(delta=book.delta is not None, numeric_type=self.numeric_type, none_to=self.none_to)
+            data = book.to_dict(numeric_type=self.numeric_type, none_to=self.none_to)
             if not book.timestamp:
                 data['timestamp'] = receipt_timestamp
             data['receipt_timestamp'] = receipt_timestamp
-
-            if book.delta is None:
-                del data['delta']
-            else:
-                self.snapshot_count[book.symbol] += 1
             await self.write(data)
-            if self.snapshot_interval <= self.snapshot_count[book.symbol] and book.delta:
-                await self._write_snapshot(book, receipt_timestamp)
-                self.snapshot_count[book.symbol] = 0
+            
+#             if book.delta is None:
+#                 del data['delta']
+#             else:
+#                 self.snapshot_count[book.symbol] += 1
+#             await self.write(data)
+#             if self.snapshot_interval <= self.snapshot_count[book.symbol] and book.delta:
+#                 await self._write_snapshot(book, receipt_timestamp)
+#                 self.snapshot_count[book.symbol] = 0

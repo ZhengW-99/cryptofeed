@@ -107,3 +107,12 @@ ENV/
 
 # PyCharm
 .idea/
+
+# log
+.log
+log/
+pid/
+output/
+
+# config
+config.py
